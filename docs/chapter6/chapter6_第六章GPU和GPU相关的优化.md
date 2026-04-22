@@ -1,5 +1,18 @@
 # 第六章：GPU和GPU相关的优化
 
+
+# 本节学习目标
+
+在进入具体分析之前，我们先明确本节的关注重点。本节将围绕大模型训练与推理所依赖的硬件加速器展开，主要包括：
+
+1. [理解GPU的基本架构、与CPU的差异以及从图形处理器到AI引擎的发展历程](#61-gpu的起源图形处理器)
+2. [掌握GPU的执行模型（SM、Warp、Block、Thread）和分层内存模型（全局内存、L2缓存、共享内存、寄存器等）](#62-gpu-的执行模型-sm流式多处理器)
+3. [学习GPU性能优化的关键技术：避免串行执行、低精度计算、算子融合、重计算、内存合并、分块（Tiling）等](#66-性能优化技术)
+4. [深入理解FlashAttention（V1/V2/V3）和PageAttention的核心原理及其对长序列训练推理的改进](#67-flash-attention)
+5. [了解国产GPU（华为昇腾、百度昆仑芯、海光、摩尔线程、阿里平头哥等）的产品性能、软件生态与市场现状](#69-国产gpu简介)
+
+完成本章学习后，你将能够：系统理解GPU的硬件架构与执行模型，掌握从内存优化到算子融合的关键性能调优手段，深入领会FlashAttention和PageAttention如何突破显存与计算瓶颈，并对国产AI芯片的竞争格局与技术路线形成整体认知，从而在实际的大模型训练与推理任务中做出合理的硬件选型与优化决策。
+
 ## 6.1 GPU的起源：图形处理器
 
 在深度学习概念没有火起来之前，GPU在普通人眼中是**游戏显卡**，即图形处理器。下面用一个例子来说明GPU和CPU的区别。
@@ -1130,7 +1143,11 @@ PagedAttention 将显存管理从**以请求为单位的静态圈地转变为以
 
 在一些算力平台如 AutoDL 上，用户可以租到 910B 搭配鲲鹏 920 的算力实例。根据 AutoDL 平台的性能实测数据（见下图），昇腾 910B 在实际应用中的表现可直观对比英伟达 A100。
 
+昇腾910B实测数据：
+
 <img src="https://raw.githubusercontent.com/datawhalechina/diy-llm/main/docs/chapter6/images/6-29-昇腾910B实测数据.png" width="800" alt="6-29-昇腾910B实测数据">
+
+英伟达A100实测数据：
 
 <img src="https://raw.githubusercontent.com/datawhalechina/diy-llm/main/docs/chapter6/images/6-30-英伟达A100实测数据.png" width="800" alt="6-30-英伟达A100实测数据.png">
 
